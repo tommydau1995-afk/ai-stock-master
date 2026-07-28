@@ -17,6 +17,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Extract Android project
         run: unzip -o AI-Stock-Master-Pro-2.0-Android.zip
+      - name: Remove conflicting AndroidX dependency
+        run: |
+          sed -i '/androidx.activity:activity/d' app/build.gradle
+          sed -i 's/import androidx.activity.ComponentActivity;/import android.app.Activity;/' app/src/main/java/com/aistockmaster/app/MainActivity.java
+          sed -i 's/extends ComponentActivity/extends Activity/' app/src/main/java/com/aistockmaster/app/MainActivity.java
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
